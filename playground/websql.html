@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DB Test</title>
+	<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0 , user-scalable = no">
+		<!-- Bootstrap -->
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-touch-fullscreen" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	</head>
+	<body>
+		<button class="check">DB check</button>
+		<button class="reset">DB reset</button>
+		<div class="content"></div>
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<!-- <script src="js/external/pouchdb.3.0.7.pre.min.js"></script> --> 
+		<script src="https://github.com/daleharvey/pouchdb/releases/download/3.0.6/pouchdb-3.0.6.min.js"></script>
+		<script>
+		d = PouchDB('test23');
+		infoFunc = function(a,b) {
+			if (!!b) {
+				$('.content').append($('<div></div>').text(JSON.stringify(b)))
+			} else {
+				$('.content').append($('<div></div>').text('error'));
+			}
+		};
+		
+		var db = openDatabase('test42', '1.0', '', 2 * 1024 * 1024);
+		db.transaction(function (tx) {
+			console.debug('Start transaction');
+			tx.executeSql('CREATE TABLE foo (id, text)');
+			console.debug('Table Created');
+		});
+		db.transaction(function (tx) {
+			tx.executeSql('DELETE FROM foo');
+			console.debug('truncate');
+			tx.executeSql('INSERT INTO foo (id, text) VALUES (1, "1")');
+			console.debug('inserted 1');
+		});
+		
+		$('button.reset').click(function() {
+			db = openDatabase('test42', '1.0', '', 2 * 1024 * 1024);
+		});
+		
+		$('button.check').click(function() {
+			adapters = '';
+			for( a in PouchDB.adapters) {
+				adapters = adapters + a + ',';
+			}
+			
+			db.transaction(function (tx) {
+				tx.executeSql('SELECT * FROM foo', [], function (tx, results) {
+					var len = results.rows.length, i;
+					for (i = 0; i < len; i++) {
+						$('.content').append($('<div></div>').text('WebSQL: ' + results.rows.item(i).text))
+					}
+				});
+				console.debug('select');
+			});
+			
+			$('.content').append($('<div></div>').text('Adapters: ' + adapters))
+			d.info(infoFunc);
+		});
+		</script>
+	</body>
+</html>
