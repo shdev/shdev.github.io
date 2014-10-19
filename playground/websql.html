@@ -10,19 +10,22 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	</head>
 	<body>
+		<div>Please click on "DB check", every thing is fine, if three lines appear. Please add this page to the home screen. Start the page from there. Click the button again. Enter standby by clicking the hardware button. Resume the page. Click on the button. How many lines appear? <a href="http://stackoverflow.com/questions/26455830/ios-8-webapp-websql-after-standby-is-not-responding">Answer on Stackoverflow</a></div>
+		
 		<button class="check">DB check</button>
-		<button class="reset">DB reset</button>
+		<!-- <button class="reset">DB reset</button> -->
 		<div class="content"></div>
 		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-		<!-- <script src="js/external/pouchdb.3.0.7.pre.min.js"></script> --> 
 		<script src="https://github.com/daleharvey/pouchdb/releases/download/3.0.6/pouchdb-3.0.6.min.js"></script>
-		<script>
+		<script> 
+		
+		
 		d = PouchDB('test23');
 		infoFunc = function(a,b) {
 			if (!!b) {
-				$('.content').append($('<div></div>').text(JSON.stringify(b)))
+				$('.content').append($('<div></div>').text('PouchDB DB info: ' + JSON.stringify(b)))
 			} else {
-				$('.content').append($('<div></div>').text('error'));
+				$('.content').append($('<div></div>').text('PouchDB DB info error'));
 			}
 		};
 		
@@ -41,14 +44,10 @@
 		
 		$('button.reset').click(function() {
 			db = openDatabase('test42', '1.0', '', 2 * 1024 * 1024);
+			db2 = openDatabase('test42', '1.0', '', 2 * 1024 * 1024);
 		});
 		
 		$('button.check').click(function() {
-			adapters = '';
-			for( a in PouchDB.adapters) {
-				adapters = adapters + a + ',';
-			}
-			
 			db.transaction(function (tx) {
 				tx.executeSql('SELECT * FROM foo', [], function (tx, results) {
 					var len = results.rows.length, i;
@@ -59,8 +58,17 @@
 				console.debug('select');
 			});
 			
-			$('.content').append($('<div></div>').text('Adapters: ' + adapters))
+			adapters = '';
+			for( a in PouchDB.adapters) {
+				adapters = adapters + a + ',';
+			}
+			$('.content').append($('<div></div>').text('Pouch DB Adapters: ' + adapters))
 			d.info(infoFunc);
+			
+			
+			
+
+
 		});
 		</script>
 	</body>
