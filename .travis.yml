@@ -4,9 +4,9 @@ rvm:
 script: 
   - bundle exec jekyll build && htmlproof ./_site
 
-branches:
-  only:
-  - feat_jb
+# branches:
+#   only:
+#   - feat_jb
 
 env:
   global:
