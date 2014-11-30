@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Simple Webserver"
+title: "Simple webserver"
 description: ""
 category: commands
 tags: [python, webserver, http, command]
