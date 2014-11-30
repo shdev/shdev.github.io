@@ -2,6 +2,11 @@ language: ruby
 rvm:
 - 2.1
 script: jekyll build && htmlproof ./_site
+
+branches:
+  only:
+  - feat_jb
+
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
