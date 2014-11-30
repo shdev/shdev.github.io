@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/shdev/shdev.github.io.svg?branch=feat_jb)](https://travis-ci.org/shdev/shdev.github.io)
+[![Build Status](https://travis-ci.org/shdev/shdev.github.io.svg?branch=master)](https://travis-ci.org/shdev/shdev.github.io)
 
 # shdev.github.io
 
